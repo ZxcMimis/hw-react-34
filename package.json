@@ -2,6 +2,7 @@
   "name": "hw-react-34",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://zxcmimis.github.io/hw-react-34/",
   "dependencies": {
     "@reduxjs/toolkit": "^2.11.2",
     "@testing-library/dom": "^10.4.1",
