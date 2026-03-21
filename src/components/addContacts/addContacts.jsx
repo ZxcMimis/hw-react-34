@@ -1,70 +1,73 @@
 import { Contacts } from "../Contacts/Contacts";
-import { addContact, removeContact } from "../../redux/contactsSlice";
-import './addContacts.scss';
+import { addContact, removeContact } from "../../redux/thunk/contactsThunk";
+import styles from "./AddContacts.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { filterContacts } from "../../redux/filterSlice";
 
 export const AddContacts = () => {
-  const contacts = useSelector((state) => state.contacts.items);
-  const dispatch = useDispatch();
+    const contacts = useSelector((state) => state.contacts)
+    const dispatch = useDispatch()
 
-  const editContacts = (e) => {
-    e.preventDefault();
-    const form = e.currentTarget;
-    const name = form.elements.name.value;
-    const number = form.elements.number.value;
+    
+    const editContacts = (e) => {
+        e.preventDefault()
+        const form = e.currentTarget
+        const name = form.elements.name.value
+        const number = form.elements.number.value
 
-    const contact = {
-      name: name,
-      phone: number,
-      id: Date.now(),
-    };
-    dispatch(addContact(contact));
-    form.reset();
-  };
+        const contact = {
+            name: name,
+            number: number,
+            
+        };
+        dispatch(addContact(contact))
+        form.reset()
+    }
 
-  const deleteContact = (id) => {
-    dispatch(removeContact(id));
-  };
+      const deleteContact = (id) => {
+        dispatch(removeContact(id))
+      }
 
-  const filterContact = (e) => {
-    const keyword = e.currentTarget.value;
-    dispatch(filterContacts(keyword));
-  };
+      const filterContact = (e) => {
+        const keyword = e.currentTarget.value
 
+        dispatch(filterContacts(keyword))
+      }
+
+  console.log(contacts);
   return (
     <>
-      <h1 className="title">PHONEBOOK</h1>
-      <form className="form" onSubmit={editContacts}>
-        <p className="name">Name</p>
+      <h1 className={styles.title}>PHONEBOOK</h1>
+      <form className={styles.form} onSubmit={editContacts}>
+        <p className={styles.name}>Name</p>
         <input
           type="text"
           name="name"
-          title="Name may contain only letters, apostrophe, dash and spaces."
+          title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
           required
-          className="nameInput"
+          className={styles.nameInput}
         />
-        <p className="phone">Number</p>
+        <p className={styles.phone}>Number</p>
         <input
           type="tel"
           name="number"
           title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
           required
-          className="phoneInput"
+          className={styles.phoneInput}
         />
-        <button type="submit" className="btn">
+        <button type="submit" className={styles.btn}>
           Add Contact
         </button>
       </form>
-      
       <input
-        type="text"
-        placeholder="Filter"
-        onInput={filterContact}
-        className="phoneInput"
-      />
-      
-      <Contacts deleteContact={deleteContact} />
+          type="text"
+          title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
+          placeholder="Filter"
+          onInput={filterContact}
+
+          className={styles.phoneInput}
+        />
+      <Contacts deleteContact={deleteContact}/>
     </>
   );
 };
