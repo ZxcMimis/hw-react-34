@@ -9,14 +9,15 @@ import {
   PURGE,
   REGISTER,
 } from 'redux-persist';
-import storage from 'redux-persist/lib/storage'; 
-import { authReducer } from './auth/authSlice';
-import { contactsReducer } from './contacts/contactsSlice';
+import storage from 'redux-persist/lib/storage';
+
+import { authReducer } from './thunk/authSlice';
+import contactsReducer from './contactsSlice';
 
 const authPersistConfig = {
   key: 'auth',
   storage,
-  whitelist: ['token'],
+  whitelist: ['token'], 
 };
 
 export const store = configureStore({

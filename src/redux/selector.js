@@ -8,7 +8,7 @@ export const selectVisibleContacts = createSelector(
   (items, filter) => {
     if (!items) return [];
     
-    const normalizedFilter = filter.toLowerCase();
+    const normalizedFilter = (filter || "").toLowerCase();
     return items.filter(contact =>
       contact.name.toLowerCase().includes(normalizedFilter)
     );

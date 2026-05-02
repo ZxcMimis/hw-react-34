@@ -19,5 +19,4 @@ const contactsSlice = createSlice({
   },
 });
 
-// Экспортируем редюсер по умолчанию, чтобы store.js мог его импортировать
 export default contactsSlice.reducer;

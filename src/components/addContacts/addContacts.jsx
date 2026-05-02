@@ -1,49 +1,41 @@
-import { Contacts } from "../Contacts/Contacts";
-import { addContact, removeContact } from "../../redux/thunk/contactsThunk";
-import styles from "./AddContacts.module.scss";
-import { useDispatch, useSelector } from "react-redux";
+import React from "react";
+import { useDispatch } from "react-redux";
+import { addContact } from "../../redux/thunk/contactsThunk";
 import { filterContacts } from "../../redux/filterSlice";
+import styles from "./AddContacts.module.scss";
 
 export const AddContacts = () => {
-    const contacts = useSelector((state) => state.contacts)
-    const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
+  const editContacts = (e) => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    const name = form.elements.name.value;
+    const number = form.elements.number.value;
+
+    const contact = {
+      name: name,
+      number: number,
+    };
     
-    const editContacts = (e) => {
-        e.preventDefault()
-        const form = e.currentTarget
-        const name = form.elements.name.value
-        const number = form.elements.number.value
+    dispatch(addContact(contact));
+    form.reset();
+  };
 
-        const contact = {
-            name: name,
-            number: number,
-            
-        };
-        dispatch(addContact(contact))
-        form.reset()
-    }
+  const filterContact = (e) => {
+    const keyword = e.currentTarget.value;
+    dispatch(filterContacts(keyword));
+  };
 
-      const deleteContact = (id) => {
-        dispatch(removeContact(id))
-      }
-
-      const filterContact = (e) => {
-        const keyword = e.currentTarget.value
-
-        dispatch(filterContacts(keyword))
-      }
-
-  console.log(contacts);
   return (
     <>
-      <h1 className={styles.title}>PHONEBOOK</h1>
+      {/* Форма добавления */}
       <form className={styles.form} onSubmit={editContacts}>
         <p className={styles.name}>Name</p>
         <input
           type="text"
           name="name"
-          title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
+          title="Name may contain only letters, apostrophe, dash and spaces."
           required
           className={styles.nameInput}
         />
@@ -59,15 +51,13 @@ export const AddContacts = () => {
           Add Contact
         </button>
       </form>
-      <input
-          type="text"
-          title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
-          placeholder="Filter"
-          onInput={filterContact}
 
-          className={styles.phoneInput}
-        />
-      <Contacts deleteContact={deleteContact}/>
+      <input
+        type="text"
+        placeholder="Search by name..."
+        onChange={filterContact}
+        className={styles.filterInput}
+      />
     </>
   );
 };
